@@ -1,0 +1,45 @@
+plugins {
+    id "org.springframework.boot" version "3.5.9" apply false
+    id "io.spring.dependency-management" version "1.1.7" apply false
+}
+
+ext {
+    springBootVersion = "3.5.9"
+    springDocVersion = "2.8.14"
+    testcontainersBomVersion = "1.21.4"
+}
+
+allprojects {
+    group = "com.wirebarley.remittance"
+    version = "0.0.1-SNAPSHOT"
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: "java-library"
+    apply plugin: "io.spring.dependency-management"
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+            mavenBom "org.testcontainers:testcontainers-bom:${testcontainersBomVersion}"
+        }
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+    }
+}
