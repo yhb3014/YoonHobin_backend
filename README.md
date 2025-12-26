@@ -90,6 +90,8 @@ docker compose down
 Windows:
 
 ```bash
+.\gradlew.bat test
+
 .\gradlew.bat :remittance-domain:test
 .\gradlew.bat :remittance-api:test
 ```
@@ -219,7 +221,34 @@ curl -X POST "http://localhost:8080/api/transfer/transfers" ^
 curl "http://localhost:8080/api/transaction/111-111-111?page=0&size=20"
 ```
 
+응답:
+
+```json
+{
+  "success": true,
+  "data": {
+    "accountNumber": "111-111-111",
+    "page": 0,
+    "size": 20,
+    "items": [
+      {
+        "type": "WITHDRAW",
+        "amount": 5000,
+        "feeAmount": 0,
+        "counterpartyAccountNumber": null,
+        "balanceBefore": 10000,
+        "balanceAfter": 5000,
+        "groupId": null,
+        "createdAt": "2025-12-26T15:00:00+09:00"
+      }
+    ]
+  },
+  "error": null,
+  "timestamp": "2025-12-26T15:00:00+09:00"
+}
+```
+
 ## 참고 자료
 
-- https://notavoid.tistory.com/240
 - https://www.postgresql.org/docs/current/explicit-locking.html
+- https://notavoid.tistory.com/119
