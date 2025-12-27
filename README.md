@@ -88,14 +88,6 @@ docker compose up -d --build
 docker compose down
 ```
 
-## 환경 변수
-
-`docker-compose.yml` 기본값
-
-- `SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/remittance`
-- `SPRING_DATASOURCE_USERNAME=remittance`
-- `SPRING_DATASOURCE_PASSWORD=remittance`
-
 ## 테스트
 
 테스트는 Testcontainers를 사용하므로 **Docker Desktop 실행이 필요**합니다.
