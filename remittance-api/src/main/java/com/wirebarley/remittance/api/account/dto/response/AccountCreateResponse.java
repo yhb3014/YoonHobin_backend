@@ -4,5 +4,5 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "계좌 생성 응답")
 public record AccountCreateResponse(
-        @Schema(defaultValue = "계좌번호", example = "111-111-111") String accountNumber) {
+                @Schema(description = "계좌번호", example = "111-111-111") String accountNumber) {
 }

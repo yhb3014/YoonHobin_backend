@@ -1,6 +1,18 @@
 ﻿# 송금 서비스
 
-계좌 간 송금 시스템을 멀티모듈 구조로 구현했습니다. JPA 기반으로 데이터 연동하고, Docker Compose로 실행합니다.
+이 프로젝트는 계좌 간 송금 시스템을 구현한 코딩 과제입니다.
+Spring Boot + JPA 기반으로 작성했고, 데이터베이스는 PostgreSQL을 사용합니다.
+remittance-api / remittance-domain / remittance-infra로 계층을 분리했으며,
+Docker Compose로 애플리케이션과 DB를 함께 실행할 수 있습니다.
+
+## 버전 정보
+
+- Java: 17
+- Spring Boot: 3.5.9
+- Gradle: 8.14.3
+- PostgreSQL: 16
+- Springdoc OpenAPI: 2.8.14
+- Testcontainers: 1.21.4
 
 ## 아키텍처 개요
 
@@ -48,6 +60,7 @@ Base URL: `http://localhost:8080`
 
 - `POST /api/account` (등록)
 - `DELETE /api/account/{accountNumber}` (삭제)
+- `GET /api/account/balance/{accountNumber}` (잔액)
 
 ### 송금
 
@@ -86,8 +99,6 @@ docker compose down
 ## 테스트
 
 테스트는 Testcontainers를 사용하므로 **Docker Desktop 실행이 필요**합니다.
-
-Windows:
 
 ```bash
 .\gradlew.bat test
@@ -139,6 +150,25 @@ curl -X DELETE "http://localhost:8080/api/account/111-111-111"
 {
   "success": true,
   "data": null,
+  "error": null,
+  "timestamp": "2025-12-26T15:00:00+09:00"
+}
+```
+
+### 잔액 조회
+
+요청:
+
+```bash
+curl -X GET "http://localhost:8080/api/account/balance/111-111-111"
+```
+
+응답:
+
+```json
+{
+  "success": true,
+  "data": { "accountNumber": "111-111-111", "balance": 10000 },
   "error": null,
   "timestamp": "2025-12-26T15:00:00+09:00"
 }

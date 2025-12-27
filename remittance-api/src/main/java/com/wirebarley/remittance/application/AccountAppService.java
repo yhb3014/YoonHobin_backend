@@ -22,4 +22,9 @@ public class AccountAppService {
     public void delete(String accountNumber) {
         accountService.delete(accountNumber);
     }
+
+    @Transactional(readOnly = true)
+    public long getBalance(String accountNumber) {
+        return accountService.getBalance(accountNumber);
+    }
 }

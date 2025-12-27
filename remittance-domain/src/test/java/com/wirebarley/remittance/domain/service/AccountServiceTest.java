@@ -68,4 +68,16 @@ class AccountServiceTest {
 
         assertThat(captor.getValue().status()).isEqualTo(AccountStatus.CLOSED);
     }
+
+    @Test
+    void 잔액조회() {
+        long initBalance = 5000L;
+        AccountRepository.Account account = new AccountRepository.Account(
+                1L, ACCOUNT_NUMBER, initBalance, AccountStatus.ACTIVE);
+        given(accountRepository.find(ACCOUNT_NUMBER)).willReturn(Optional.of(account));
+
+        long balance = accountService.getBalance(ACCOUNT_NUMBER);
+
+        assertThat(balance).isEqualTo(initBalance);
+    }
 }

@@ -1,6 +1,7 @@
 package com.wirebarley.remittance.api.account;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wirebarley.remittance.api.account.dto.request.AccountCreateRequest;
+import com.wirebarley.remittance.api.account.dto.response.AccountBalanceResponse;
 import com.wirebarley.remittance.api.account.dto.response.AccountCreateResponse;
 import com.wirebarley.remittance.application.AccountAppService;
 import com.wirebarley.remittance.common.response.ApiResponseDto;
@@ -45,5 +47,14 @@ public class AccountController {
             @Parameter(description = "계좌번호", example = "111-111-111", required = true) @PathVariable String accountNumber) {
         accountAppService.delete(accountNumber);
         return ApiResponseDto.ok(null);
+    }
+
+    @Operation(summary = "계좌 잔액 조회")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = AccountBalanceResponse.class)))
+    @GetMapping("/balance/{accountNumber}")
+    public ApiResponseDto<AccountBalanceResponse> getBalance(
+            @Parameter(description = "계좌번호", example = "111-111-111", required = true) @PathVariable String accountNumber) {
+        long balance = accountAppService.getBalance(accountNumber);
+        return ApiResponseDto.ok(new AccountBalanceResponse(accountNumber, balance));
     }
 }

@@ -49,6 +49,21 @@ public class AccountService {
                 AccountStatus.CLOSED));
     }
 
+    /**
+     * 잔액 조회
+     * 
+     * @param accountNumber
+     * @return
+     */
+    public long getBalance(String accountNumber) {
+        validateAccountNumber(accountNumber);
+
+        AccountRepository.Account account = accountRepository.find(accountNumber)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND, "없는 계좌 입니다."));
+
+        return account.balance();
+    }
+
     private void validateAccountNumber(String accountNumber) {
         if (accountNumber == null || accountNumber.isBlank()) {
             throw new BusinessException(ErrorCode.INVALID_REQUEST, "계좌 번호를 입력해주세요.");
